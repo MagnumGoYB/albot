@@ -37,6 +37,8 @@ bot
     }
   })
 
+console.log('Starting...')
+
 bot.start().catch(async (error) => {
   log.error('Bot', 'Startup error: %s', error)
   await bot.stop()
