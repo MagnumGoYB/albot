@@ -5,7 +5,8 @@
   "description": "可以提供数字币价格提醒的微信机器人",
   "author": "sosbs@outlook.com",
   "scripts": {
-    "start": "ts-node ./src/app.ts",
+    "dev": "ts-node ./src/app.ts",
+    "build": "tsc --outDir ./dist",
     "prepare": "husky install",
     "sort": "sort-package-json",
     "prettier": "prettier -c --write '**/*'"
