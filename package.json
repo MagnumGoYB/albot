@@ -1,0 +1,49 @@
+{
+  "name": "albot",
+  "version": "0.0.0",
+  "private": true,
+  "description": "可以提供数字币价格提醒的微信机器人",
+  "author": "sosbs@outlook.com",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev ts-node ./src/app.ts",
+    "prepare": "husky install && gitmoji -i",
+    "build": "tsc --outDir ./dist",
+    "sort": "sort-package-json",
+    "prettier": "prettier -c --write '**/*'"
+  },
+  "lint-staged": {
+    "package.json": "sort-package-json",
+    "**/*": "prettier -c --write"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dayjs": "^1.10.5",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.11.10",
+    "node-schedule": "^2.0.0",
+    "qrcode-terminal": "^0.12.0",
+    "wechaty": "^0.60.12"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.170",
+    "@types/node": "^15.6.1",
+    "@types/node-schedule": "^1.3.1",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "commitlint": "^11.0.0",
+    "commitlint-config-gitmoji": "^2.2.5",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.27.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0",
+    "sort-package-json": "^1.50.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  }
+}
