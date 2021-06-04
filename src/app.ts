@@ -90,9 +90,9 @@ async function onMessage(msg: Message) {
       if (
         /^[+,-][a-zA-Z]+[>,<](0|[1-9][0-9]*)(.[0-9]{1,15})?$/.test(textContent)
       ) {
-        const event = textContent.match(/^[+,-]/)?.[0]
-        const keyword = textContent.match(/[a-zA-Z]+/)?.[0]
-        const formulaSymbol = textContent.match(/[>,<]/)?.[0]
+        const event = textContent.match(/^[+,-]/)?.toString()
+        const keyword = textContent.match(/[a-zA-Z]+/)?.toString()
+        const formulaSymbol = textContent.match(/[>,<]/)?.toString()
         let formula = ''
         switch (formulaSymbol) {
           case '>':
@@ -102,7 +102,10 @@ async function onMessage(msg: Message) {
             formula = 'lt'
             break
         }
-        const value = textContent.match(/(0|[1-9][0-9]*)(.[0-9]{1,15})?$/)?.[0]
+        const value = textContent
+          .match(/(0|[1-9][0-9]*)(.[0-9]{1,15})?$/)
+          ?.toString()
+          .split(',')[0]
         const triggerValue = Number(value)
         if (
           event &&
