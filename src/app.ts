@@ -1,4 +1,3 @@
-// import { PuppetPadlocal } from 'wechaty-puppet-padlocal'
 import { Wechaty, log, Message } from 'wechaty'
 import QrcodeTerminal from 'qrcode-terminal'
 import syncTickers from './tasks/sync-tickers'
@@ -11,9 +10,6 @@ import unescape from 'lodash/unescape'
 import escape from 'lodash/escape'
 import User from './database/models/user'
 
-// const puppet = new PuppetPadlocal({
-//   token: 'abe6aefcf97e4a6897a4e9d476d1485b'
-// })
 const bot = new Wechaty({
   name: 'albot',
   puppet: 'wechaty-puppet-wechat'
