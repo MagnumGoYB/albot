@@ -1,4 +1,4 @@
-import { Wechaty, log, Message } from 'wechaty'
+import { Wechaty, log, Message, ScanStatus } from 'wechaty'
 import QrcodeTerminal from 'qrcode-terminal'
 import syncTickers from './tasks/sync-tickers'
 import monitor from './tasks/monitor'
@@ -26,7 +26,19 @@ bot
   })
   .on('logout', (user) => log.info('Bot', `${user.name()} logout`))
   .on('error', (error) => log.error('Bot', 'Error: %s', error))
-  .on('scan', (qrcode) => QrcodeTerminal.generate(qrcode, { small: true }))
+  .on('scan', (qrcode, status) => {
+    const qrcodeImageUrl = [
+      'https://wechaty.js.org/qrcode/',
+      encodeURIComponent(qrcode)
+    ].join('')
+
+    log.info(
+      'Bot',
+      `onScan: ${ScanStatus[status]}(${status}) - ${qrcodeImageUrl}`
+    )
+
+    QrcodeTerminal.generate(qrcode, { small: true })
+  })
   .on('message', onMessage)
   .on('stop', () => process.exit(-1))
   .on('friendship', async (friendship) => {
