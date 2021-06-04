@@ -6,7 +6,7 @@
   "author": "sosbs@outlook.com",
   "scripts": {
     "start": "ts-node ./src/app.ts",
-    "prepare": "husky install && gitmoji -i",
+    "prepare": "husky install",
     "sort": "sort-package-json",
     "prettier": "prettier -c --write '**/*'"
   },
