@@ -58,6 +58,7 @@ bot.start().catch(async (error) => {
 })
 
 async function onMessage(msg: Message) {
+  console.log(msg)
   if (msg.age() > 120 || Message.Type.Text !== msg.type()) return
   const text = msg.text()
   const contact = msg.talker()
