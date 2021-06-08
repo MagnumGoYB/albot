@@ -4,6 +4,10 @@
 >
 > 数据来源于：https://github.com/xiaohao2019/API-docs
 
+### 例子：
+
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1grawq9i616j30by0bymy0.jpg" alt="WechatIMG46971" style="zoom:33%;" />
+
 ### 本地运行：
 
 确保开发环境中已经运行 MongoDB 服务：
