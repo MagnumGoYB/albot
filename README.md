@@ -6,7 +6,7 @@
 
 ### 例子：
 
-<img src="https://tva1.sinaimg.cn/large/008i3skNly1grawq9i616j30by0bymy0.jpg" alt="WechatIMG46971" style="zoom:33%;" />
+<img width="150" height="150" src="https://tva1.sinaimg.cn/large/008i3skNly1grawq9i616j30by0bymy0.jpg" alt="Albot" />
 
 ### 本地运行：
 
