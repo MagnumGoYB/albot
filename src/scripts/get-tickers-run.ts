@@ -68,8 +68,8 @@ function fetchItems(limit: number) {
     console.time('Fetched total time using')
     for await (const pageItems of fetchItems(3000)) {
       pageItems.forEach((item) => items.push(item))
-      // Wait for 0.05 seconds between requests
-      await sleep(50)
+      // Wait for 1 seconds between requests
+      await sleep(1000)
     }
     console.timeEnd('Fetched total time using')
     console.log(`Fetched ${items.length} total items`)
