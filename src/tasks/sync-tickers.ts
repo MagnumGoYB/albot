@@ -34,7 +34,8 @@ export default function syncTickers() {
         if (Array.isArray(data)) {
           let syncedCount = 0
           syncing = true
-          console.time(`${Date.now()} Sync to db total time using`)
+
+          console.time('Sync to db total time using')
           for (const item of data) {
             if (
               !item.id ||
@@ -77,7 +78,7 @@ export default function syncTickers() {
             }
           }
           syncing = false
-          console.timeEnd(`${Date.now()} Sync to db total time using`)
+          console.timeEnd('Sync to db total time using')
           console.log(`Synced ${syncedCount} total items`)
         }
       })
