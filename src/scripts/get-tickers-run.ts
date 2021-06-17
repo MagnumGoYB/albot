@@ -61,17 +61,17 @@ function fetchItems(limit: number) {
           yield items
           if (items.length < limit) hasMore = false
           currentPage++
-          // Wait for 5 seconds between requests
+          // Wait for 2 seconds between requests
           console.time('Sleep')
-          await sleep(5000)
+          await sleep(2000)
           console.timeEnd('Sleep')
         } catch (error) {
           console.error(error)
           console.timeEnd('Fetched time using')
           console.error('There has been an error fetching all the items!')
           console.time('Sleep for error')
-          // Wait for 10 seconds between requests
-          await sleep(10000)
+          // Wait for 6 seconds between requests
+          await sleep(6000)
           console.timeEnd('Sleep for error')
         }
       }
