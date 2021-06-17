@@ -33,7 +33,14 @@ const items: TickerItemType[] = []
 function fetch({ limit, start }: FetchProps) {
   console.log(`Fetch data from ${url}?limit=${limit}&start=${start}`)
   return request
-    .get<TickerItemType[]>(`${url}?limit=${limit}&start=${start}`)
+    .get<TickerItemType[]>(`${url}?limit=${limit}&start=${start}`, {
+      headers: {
+        'Cache-Control': 'max-age=0',
+        Connection: 'keep-alive',
+        'User-Agent':
+          'Mozilla/5.0 AppleWebKit/537.36 Chrome/91.0.4472.106 Safari/537.36'
+      }
+    })
     .then((res) => res.data)
 }
 
