@@ -4,6 +4,7 @@ import schedule from 'node-schedule'
 import { TickerItemType } from '../scripts/get-tickers-run'
 import Ticker, { TickerDocument } from '../database/models/ticker'
 import dayjs from 'dayjs'
+import sleep from '../utils/sleep'
 
 export default function syncTickers() {
   let invoked = false
@@ -69,6 +70,9 @@ export default function syncTickers() {
             console.error(error)
           }
         }
+        console.time('Sleep')
+        await sleep(120000)
+        console.timeEnd('Sleep')
         syncing = false
         console.timeEnd(`${Date.now()} Sync to db total time using`)
         console.log(`Synced ${syncedCount} total items`)
