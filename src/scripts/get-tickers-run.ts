@@ -56,9 +56,11 @@ function fetchItems(limit: number) {
           currentPage++
         } catch (error) {
           console.error(error)
+          console.timeEnd('Fetched time using')
           console.error('There has been an error fetching all the items!')
-          console.error('Wait for 1 seconds between requests!')
-          await sleep(1000)
+          console.time('Sleep for error')
+          await sleep(5000)
+          console.timeEnd('Sleep for error')
         }
       }
     }
@@ -68,10 +70,12 @@ function fetchItems(limit: number) {
 ;(async function () {
   try {
     console.time('Fetched total time using')
-    for await (const pageItems of fetchItems(3000)) {
+    for await (const pageItems of fetchItems(2000)) {
       pageItems.forEach((item) => items.push(item))
-      // Wait for 1 seconds between requests
-      await sleep(1000)
+      // Wait for 0.5 seconds between requests
+      console.time('Sleep')
+      await sleep(500)
+      console.timeEnd('Sleep')
     }
     console.timeEnd('Fetched total time using')
     console.log(`Fetched ${items.length} total items`)

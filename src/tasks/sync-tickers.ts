@@ -7,13 +7,15 @@ import dayjs from 'dayjs'
 
 export default function syncTickers() {
   let invoked = false
+  let syncing = false
   schedule.scheduleJob(
-    {
-      minute: [
-        0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54,
-        57
-      ]
-    },
+    // {
+    //   minute: [
+    //     0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54,
+    //     57
+    //   ]
+    // },
+    '* * * * * *',
     () => {
       if (invoked) return
       console.log(`Sync-Tickers schedule start at: ${new Date()}`)
@@ -26,9 +28,14 @@ export default function syncTickers() {
         invoked = false
       })
       child.on('message', async (data: TickerItemType[]) => {
+        if (syncing) {
+          console.log('Syncing can not repeat the!')
+          return
+        }
         if (Array.isArray(data)) {
           let syncedCount = 0
-          console.time('Sync to db total time using')
+          syncing = true
+          console.time(`${Date.now()} Sync to db total time using`)
           for (const item of data) {
             if (
               !item.id ||
@@ -70,7 +77,8 @@ export default function syncTickers() {
               console.error(error)
             }
           }
-          console.timeEnd('Sync to db total time using')
+          syncing = false
+          console.timeEnd(`${Date.now()} Sync to db total time using`)
           console.log(`Synced ${syncedCount} total items`)
         }
       })
