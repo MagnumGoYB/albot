@@ -55,8 +55,10 @@ function fetchItems(limit: number) {
           if (items.length < limit) hasMore = false
           currentPage++
         } catch (error) {
-          console.error('There has been an error fetching all the items!')
           console.error(error)
+          console.error('There has been an error fetching all the items!')
+          console.error('Wait for 1 seconds between requests!')
+          await sleep(1000)
         }
       }
     }
