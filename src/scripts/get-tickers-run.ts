@@ -66,7 +66,6 @@ function fetchItems(limit: number) {
           await sleep(2000)
           console.timeEnd('Sleep')
         } catch (error) {
-          console.error(error)
           console.timeEnd('Fetched time using')
           console.error('There has been an error fetching all the items!')
           console.time('Sleep for error')
