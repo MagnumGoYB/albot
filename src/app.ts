@@ -263,14 +263,11 @@ async function onlineNotify() {
   const tickersCount = await Ticker.countDocuments({ isValid: true })
 
   // 通知已上线
-  contactList.forEach(async (contact, index) => {
-    if (contact.type() === undefined) {
-      log.info('Bot', `Personal ${index}: ${contact.name()} : ${contact.id}`)
-      if (contact.name() === 'Albot') {
-        await contact.say(
-          `${botName} 已上线\n\n当前版本：${process.env.npm_package_version}\n收录币种数量：${tickersCount}\n\n- 赠人⭐️ 手有余香\n- 项目地址：https://github.com/MagnumGoYB/albot\n\n回复“help”获取使用说明~`
-        )
-      }
+  contactList.forEach(async (contact) => {
+    if (contact.type() === undefined && contact.name() && contact.friend()) {
+      await contact.say(
+        `${botName} 已上线\n\n当前版本：${process.env.npm_package_version}\n收录币种数量：${tickersCount}\n\n- 赠人⭐️ 手有余香\n- 项目地址：https://github.com/MagnumGoYB/albot\n\n回复“help”获取使用说明~`
+      )
     }
   })
 }
