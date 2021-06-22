@@ -241,8 +241,8 @@ async function onMessage(msg: Message) {
       }
 
       // #4 使用说明
-      // -> help
-      if (textContent === 'help') {
+      // -> 帮助
+      if (textContent === '帮助') {
         await contact.say(
           '1.查询币种价格\n输入币种名称或符号，如：eth、bitcoin'
         )
@@ -266,7 +266,7 @@ async function onlineNotify() {
   contactList.forEach(async (contact) => {
     if (contact.type() === undefined && contact.name() && contact.friend()) {
       await contact.say(
-        `${botName} 已上线\n\n当前版本：${process.env.npm_package_version}\n收录币种数量：${tickersCount}\n\n- 赠人⭐️ 手有余香\n- 项目地址：https://github.com/MagnumGoYB/albot\n\n回复“help”获取使用说明~`
+        `${botName} 已上线\n\n当前版本：${process.env.npm_package_version}\n收录币种数量：${tickersCount}\n\n- 赠人⭐️ 手有余香\n- 项目地址：https://github.com/MagnumGoYB/albot\n\n回复“帮助”获取使用说明~`
       )
     }
   })
