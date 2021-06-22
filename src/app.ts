@@ -21,6 +21,7 @@ bot
   .on('login', async (user) => {
     botName = user.name()
     log.info('Bot', `${user.name()} login`)
+    onLogin()
     syncTickers()
     monitor(bot)
   })
@@ -53,6 +54,12 @@ bot.start().catch(async (error) => {
   await bot.stop()
   process.exit(-1)
 })
+
+async function onLogin() {
+  const SLEEP = 7
+  log.info('Bot', 'Re-dump contact after %d second... ', SLEEP)
+  setTimeout(onlineNotify, SLEEP * 1000)
+}
 
 async function onMessage(msg: Message) {
   if (msg.age() > 120 || Message.Type.Text !== msg.type()) return
@@ -161,7 +168,7 @@ async function onMessage(msg: Message) {
                 triggerValue
               } as SubscriptionDocument).save()
               await contact.say(
-                `订阅成功！\n触发价格：${formulaSymbol} ${triggerValue} USD`
+                `订阅成功！\n触发价格：${ticker.symbol} ${formulaSymbol} ${triggerValue} USD`
               )
             } catch (error) {
               console.error(error)
@@ -193,6 +200,7 @@ async function onMessage(msg: Message) {
           }
         }
       }
+
       // #3 获取已订阅列表
       // -> 查询 || 订阅列表 || 查询订阅 || 查询订阅列表
       if (
@@ -231,7 +239,38 @@ async function onMessage(msg: Message) {
         })
         await contact.say(say)
       }
+
+      // #4 使用说明
+      // -> help
+      if (textContent === 'help') {
+        await contact.say(
+          '1.查询币种价格\n输入币种名称或符号，如：eth、bitcoin'
+        )
+        await contact.say(
+          '2.订阅价格预警\n新增订阅方式：输入 + (币种符号) > 或 < (触发价格)，如：+eth>3000、+eth<1000\n删除已订阅方式：输入 - (币种符号) > 或 < (触发价格)，如：-eth>3000、-eth<1000'
+        )
+        await contact.say('3.获取已订阅列表\n输入关键字：查询、订阅列表')
+      }
     }
     console.log(`toContact: ${name} Contact: ${contact?.name()} Text: ${text}`)
   }
+}
+
+async function onlineNotify() {
+  const contactList = await bot.Contact.findAll()
+  log.info('Bot', 'Contact number: %d\n', contactList.length)
+
+  const tickersCount = await Ticker.countDocuments({ isValid: true })
+
+  // 通知已上线
+  contactList.forEach(async (contact, index) => {
+    if (contact.type() === undefined) {
+      log.info('Bot', `Personal ${index}: ${contact.name()} : ${contact.id}`)
+      if (contact.name() === 'Albot') {
+        await contact.say(
+          `${botName} 已上线\n\n当前版本：${process.env.npm_package_version}\n收录币种数量：${tickersCount}\n\n- 赠人⭐️ 手有余香\n- 项目地址：https://github.com/MagnumGoYB/albot\n\n回复“help”获取使用说明~`
+        )
+      }
+    }
+  })
 }
