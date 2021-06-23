@@ -61,9 +61,9 @@ function fetchItems(limit: number) {
           yield items
           if (items.length < limit) hasMore = false
           currentPage++
-          // Wait for 2 seconds between requests
+          // Wait for 1 seconds between requests
           console.time('Sleep')
-          await sleep(2000)
+          await sleep(1000)
           console.timeEnd('Sleep')
         } catch (error) {
           console.timeEnd('Fetched time using')
@@ -81,7 +81,7 @@ function fetchItems(limit: number) {
 ;(async function () {
   try {
     console.time('Fetched total time using')
-    for await (const pageItems of fetchItems(3000)) {
+    for await (const pageItems of fetchItems(500)) {
       pageItems.forEach((item) => items.push(item))
     }
     console.timeEnd('Fetched total time using')
