@@ -9,6 +9,7 @@ import Subscription, {
 import unescape from 'lodash/unescape'
 import escape from 'lodash/escape'
 import User from './database/models/user'
+import { getGitVersion } from './utils/version'
 
 const bot = new Wechaty({
   name: 'albot',
@@ -56,9 +57,37 @@ bot.start().catch(async (error) => {
 })
 
 async function onLogin() {
-  const SLEEP = 7
-  log.info('Bot', 'Re-dump contact after %d second... ', SLEEP)
-  setTimeout(onlineNotify, SLEEP * 1000)
+  try {
+    const gitVersion = await getGitVersion()
+    let lastVersion = gitVersion.trim().substr(1)
+    if (!lastVersion) {
+      throw new Error('Get git version error')
+    }
+    const lastVersionArray = lastVersion.match(/\d/g)
+    if (!lastVersionArray) {
+      throw new Error('Get git version error')
+    }
+    lastVersion = lastVersionArray.join('')
+
+    let currentVersion = process.env.npm_package_version
+    if (!currentVersion) {
+      throw new Error('Get package version error')
+    }
+    const currentVersionArray = lastVersion.match(/\d/g)
+    if (!currentVersionArray) {
+      throw new Error('Get git version error')
+    }
+    currentVersion = currentVersionArray.join('')
+
+    if (parseInt(lastVersion) > parseInt(currentVersion)) {
+      // 如果版本有升级，进行主动通知
+      const SLEEP = 7
+      log.info('Bot', 'Re-dump contact after %d second... ', SLEEP)
+      setTimeout(onlineNotify, SLEEP * 1000)
+    }
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 async function onMessage(msg: Message) {
