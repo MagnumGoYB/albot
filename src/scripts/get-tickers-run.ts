@@ -27,19 +27,19 @@ export interface TickerItemType {
   lastUpdated: number
 }
 
-const url = 'https://fxhapi.feixiaohao.com/public/v1/ticker'
+const targetUrl = 'https://fxhapi.feixiaohao.com/public/v1/ticker'
 const items: TickerItemType[] = []
 
 function fetch({ limit, start }: FetchProps) {
-  console.log(`Fetch data from ${url}?limit=${limit}&start=${start}`)
+  console.log(`Fetch data from ${targetUrl}?limit=${limit}&start=${start}`)
   return request
-    .get<TickerItemType[]>(`${url}?limit=${limit}&start=${start}`, {
-      headers: {
-        Connection: 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'User-Agent':
-          'Mozilla/5.0 AppleWebKit/537.36 Chrome/91.0.4472.106 Safari/537.36'
-      }
+    .get<TickerItemType[]>(`${targetUrl}?limit=${limit}&start=${start}`, {
+      // headers: {
+      //   Connection: 'keep-alive',
+      //   'Accept-Encoding': 'gzip, deflate, br',
+      //   'User-Agent':
+      //     'Mozilla/5.0 AppleWebKit/537.36 Chrome/91.0.4472.106 Safari/537.36'
+      // }
     })
     .then((res) => res.data)
 }
@@ -61,16 +61,18 @@ function fetchItems(limit: number) {
           yield items
           if (items.length < limit) hasMore = false
           currentPage++
-          // Wait for 1 seconds between requests
-          // console.time('Sleep')
-          // await sleep(1000)
-          // console.timeEnd('Sleep')
+          // Wait for 3 seconds between requests
+          console.log('Sleep...')
+          console.time('Sleep')
+          await sleep(3000)
+          console.timeEnd('Sleep')
         } catch (error) {
           console.timeEnd('Fetched time using')
           console.error('There has been an error fetching all the items!')
+          console.log('Sleep...')
           console.time('Sleep for error')
-          // Wait for 6 seconds between requests
-          await sleep(6000)
+          // Wait for 10 seconds between requests
+          await sleep(10000)
           console.timeEnd('Sleep for error')
         }
       }
@@ -81,7 +83,7 @@ function fetchItems(limit: number) {
 ;(async function () {
   try {
     console.time('Fetched total time using')
-    for await (const pageItems of fetchItems(100)) {
+    for await (const pageItems of fetchItems(3000)) {
       pageItems.forEach((item) => items.push(item))
     }
     console.timeEnd('Fetched total time using')
